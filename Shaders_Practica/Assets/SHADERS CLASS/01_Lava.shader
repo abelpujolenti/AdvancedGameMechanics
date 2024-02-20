@@ -4,7 +4,7 @@ Shader"ENTI/01_Lava"
     {
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Main Texture", 2D) = "white" {}
-        _Noise ("Noise Texture", 2D) = "black" {}
+        _NoiseTexture ("Noise Texture", 2D) = "black" {}
         _Flow1 ("Flow vector 1", Vector) = (1, 0, 0, 0)
         _Flow2 ("Flow vector 2", Vector) = (0, -1, 0, 0)
 
