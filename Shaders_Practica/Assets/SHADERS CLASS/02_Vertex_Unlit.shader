@@ -78,7 +78,7 @@ Shader"ENTI/02_Vertex_Unlit"
     
                 float3 worldPosition = mul(unity_ObjectToWorld, v.vertex).xyz;
     
-                half4 displacementTexture = tex2Dlod(_DisplacementTexture, float4(worldPosition.x * _Time.x, worldPosition.y, 0, 0));
+                half4 displacementTexture = tex2Dlod(_DisplacementTexture, float4(worldPosition.x + _Time.y, worldPosition.y, 0, 0));
     
                 v.vertex.xyz += _Displacement * v.normal * displacementTexture;
     
