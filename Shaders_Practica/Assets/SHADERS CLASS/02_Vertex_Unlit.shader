@@ -7,7 +7,7 @@ Shader"ENTI/02_Vertex_Unlit"
         _Scale ("Scale", float) = 1.0
         _TilingOffset ("Tiling and Offset", vector) = (1.0, 1.0, 1.0, 1.0)
         _Displacement ("Displacement", float) = 1.0
-        _DisplacementTexture ("Displacement Texture", 2D) = "WHITE" {}
+        _RingThreshold ("Ring Threshold", float) = 1.0
     }
     SubShader
     {
@@ -35,17 +35,14 @@ Shader"ENTI/02_Vertex_Unlit"
                 float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
                 fixed4 color : COLOR;
-                float4 displacementTexture : TEXCOORD1;
-};
+            };
 
             fixed4 _Color;
-            float4 _MainTex_ST, _DisplacementTexture_ST;
-            sampler2D _MainTex, _DisplacementTexture;
-            float _Scale;
-            float4 _TilingOffset;
-            float _Displacement;
+            float4 _MainTex_ST, _TilingOffset;
+            sampler2D _MainTex;
+            float _Displacement, _Scale, _RingThreshold;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
     
@@ -74,25 +71,15 @@ Shader"ENTI/02_Vertex_Unlit"
     
                 //2. DISPLACEMENTS
     
-                v.vertex *= _Scale;
-    
-                float3 worldPosition = mul(unity_ObjectToWorld, v.vertex).xyz;
-    
-                half4 displacementTexture = tex2Dlod(_DisplacementTexture, float4(worldPosition.x + _Time.y, worldPosition.y, 0, 0));
-    
-                v.vertex.xyz += _Displacement * v.normal * displacementTexture;
-    
-                o.displacementTexture = displacementTexture;
-    
                 o.vertex = UnityObjectToClipPos(v.vertex);
     
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
-            {                
+            fixed4 frag(v2f i) : SV_Target
+            {
                 half4 col = tex2D(_MainTex, i.uv);
-                col += (i.displacementTexture * _Color);
+                col *= _Color;
                 return col;
             }
             ENDCG
