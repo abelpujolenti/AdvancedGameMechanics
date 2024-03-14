@@ -151,9 +151,9 @@ Shader"ENTI/10_PhongNormal"
 
                 struct appdata
                 {
-    float4 vertex : POSITION;
-    float3 normal : NORMAL;
-};
+                    float4 vertex : POSITION;
+                    float3 normal : NORMAL;
+                };
 
                 struct v2f
                 {
@@ -166,8 +166,8 @@ Shader"ENTI/10_PhongNormal"
                 v2f vert(appdata v)
                 {
                     v2f o;
+                    v.vertex.xyz += _OutlineWidth * v.normal;
                     o.vertex = UnityObjectToClipPos(v.vertex);
-                    o.vertex.xyz += _OutlineWidth * v.normal;
                     return o;
                 }
 
