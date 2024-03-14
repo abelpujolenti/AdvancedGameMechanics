@@ -101,7 +101,7 @@ Shader"ENTI/10_PhongNormal"
     
                     TBN = transpose(TBN);
     
-                    float worldNormal = mul(TBN, tangentNormal);
+                    float3 worldNormal = mul(TBN, tangentNormal);
                     normalDirection = worldNormal;
 
                                     //diffuse reflection
